@@ -69,7 +69,14 @@ const editMode = ref(false)
 const nameInput = ref<HTMLInputElement | null>(null)
 const nameInputContent = ref('')
 
-const links = computed(()=>props.data.links)
+const links = computed({
+  get() {
+    return props.data.links
+  },
+  set(newVal) {
+    store.updateCollection(props.data.id, { links: newVal })
+  },
+})
 
 function enterEditMode() {
   editMode.value = true
