@@ -9,7 +9,7 @@
 <script setup lang="ts">
 const time = ref('--:--')
 
-onMounted(()=>{
+onMounted(() => {
   updateTime()
   setInterval(updateTime, 1000)
 })

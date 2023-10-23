@@ -40,7 +40,7 @@ const store = useStore()
 
 const { collections } = toRefs(store)
 
-onMounted(()=>{
+onMounted(() => {
   settings.register('collections', collections, SettingType.Json)
 })
 
@@ -55,7 +55,7 @@ function handleAddCollection() {
 
 function handleAddLink() {
   const collectionId = store.collections[0].id
-  if (!collectionId) 
+  if (!collectionId)
     return
   store.addLink(collectionId, {
     id: '',

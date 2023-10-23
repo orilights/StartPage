@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { CollectionData, ContextMenuItem, LinkData, SearchProvider, ShowContextMenuProps } from '@/types'
+import type { CollectionData, LinkData, SearchProvider, ShowContextMenuProps } from '@/types'
 import type { ShowModalProps } from '@/types/modal'
 import { isValidKey } from '@/utils'
 
@@ -8,11 +8,11 @@ export const useStore = defineStore('main', {
     collections: [] as CollectionData[],
     searchProviders: [] as SearchProvider[],
 
-    contextMenu:{
+    contextMenu: {
       show: false,
       data: {} as ShowContextMenuProps,
     },
-    modal:{
+    modal: {
       show: false,
       data: {} as ShowModalProps,
     },

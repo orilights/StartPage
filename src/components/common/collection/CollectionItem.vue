@@ -1,6 +1,6 @@
 <template>
   <div
-    class="px-4 py-3 rounded-2xl border transition-colors group relative" 
+    class="px-4 py-3 rounded-2xl border transition-colors group relative"
     @contextmenu="handleShowContextMenu"
   >
     <div class="absolute flex gap-2 top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -15,7 +15,7 @@
     <div>
       <span v-show="!editMode" @dblclick="enterEditMode">{{ data.name }}</span>
       <input
-        v-show="editMode" 
+        v-show="editMode"
         ref="nameInput"
         v-model.trim="nameInputContent"
         type="text" maxlength="20"
@@ -52,14 +52,12 @@ const props = defineProps<CollectionProps>()
 
 const store = useStore()
 
-
 const dragOptions = {
   animation: 200,
   group: 'description',
   disabled: false,
   ghostClass: 'ghost',
 }
-
 
 interface CollectionProps {
   data: CollectionData
@@ -81,16 +79,16 @@ const links = computed({
 function enterEditMode() {
   editMode.value = true
   nameInputContent.value = props.data.name
-  nextTick(()=>{
+  nextTick(() => {
     nameInput.value?.focus()
     nameInput.value?.select()
   })
 }
 
 function exitEditMode() {
-  if (nameInputContent.value !== '') 
+  if (nameInputContent.value !== '')
     store.updateCollection(props.data.id, { name: nameInputContent.value })
-  
+
   editMode.value = false
 }
 
@@ -155,7 +153,7 @@ function handleShowContextMenu(e: MouseEvent) {
     },
     {
       type: ContextMenuItemType.Text,
-      text: `collection ${ props.data.name}`,
+      text: `collection ${props.data.name}`,
       textSize: 12,
       textColor: '#888888',
     }],

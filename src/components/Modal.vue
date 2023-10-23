@@ -63,7 +63,6 @@ const { modal } = toRefs(store)
 const modalShow = computed(() => modal.value.show)
 const modalData = computed(() => modal.value.data)
 
-
 const inputValue = ref('')
 const customModalConfig = ref<CustomModalProps[]>([])
 
@@ -73,7 +72,7 @@ const inputValid = computed(() => {
   return modalData.value.validator(inputValue.value)
 })
 
-watch(modalShow, (val)=>{
+watch(modalShow, (val) => {
   if (val) {
     inputValue.value = modalData.value.defaultValue || ''
     if (modalData.value.type === ModalType.INPUT_JSON) {
@@ -88,7 +87,6 @@ watch(modalShow, (val)=>{
   }
 })
 
-
 function handleConfirm() {
   if (!inputValid.value) {
     // store.toast.warning('输入不合法')
@@ -99,9 +97,9 @@ function handleConfirm() {
   }
   else if (modalData.value.type === ModalType.INPUT_JSON) {
     const retData: any = {}
-    for (const item of customModalConfig.value) 
+    for (const item of customModalConfig.value)
       retData[item.key] = item.value
-    
+
     modalData.value.onConfirm(JSON.stringify(retData))
   }
   else {

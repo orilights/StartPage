@@ -17,9 +17,9 @@
     <input
       ref="searchInput" v-model="searchStr" class="outline-none px-1 flex-1 h-[48px]"
       type="text"
-      :placeholder="`使用 ${searchProviders[currentSearchProviderIndex].name} 搜索`"
+      :placeholder="`使用 ${searchProviders[currentSearchProviderIndex].name} 搜索, 按下 / 聚焦到搜索框, 按下 Tab 切换搜索引擎`"
       @focus="focusOnSearchInput = true"
-      @blur="focusOnSearchInput = false" 
+      @blur="focusOnSearchInput = false"
       @keydown.enter="handleSearch"
       @keydown.tab.prevent="switchSearchProvider()"
     >
@@ -84,7 +84,6 @@ onMounted(() => {
       e.preventDefault()
       searchInput.value?.focus()
     }
-      
   })
 })
 
@@ -93,7 +92,7 @@ const hideSearchProviderList = useDebounceFn(() => {
 }, 800)
 
 function handleWheel(e: WheelEvent) {
-  switchSearchProvider( e.deltaY > 0)
+  switchSearchProvider(e.deltaY > 0)
 }
 
 function switchSearchProvider(next = true) {

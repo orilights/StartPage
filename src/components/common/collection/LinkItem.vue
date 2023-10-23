@@ -1,6 +1,6 @@
 <template>
   <a
-    :href="data.target" 
+    :href="data.target"
     class="px-2 py-1 border hover:bg-gray-200 transition-colors rounded-lg inline-flex items-center gap-1.5
     shadow-sm hover:shadow-none"
     target="_blank" rel="noreferrer"
@@ -18,7 +18,6 @@
 import { useStore } from '@/store'
 import { ContextMenuItemType, type LinkData } from '@/types'
 import { CustomModalType, ModalType } from '@/types/modal'
-
 
 const props = defineProps<{
   parentId: string
@@ -114,6 +113,5 @@ function handleShowContextMenu(e: MouseEvent) {
       y: e.clientY,
     },
   })
-  
 }
 </script>
