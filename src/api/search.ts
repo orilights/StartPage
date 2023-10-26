@@ -1,8 +1,11 @@
-export function getSearchSuggestion(keyword: string, source: string, language: string) {
+import type { SuggestionHelperConfig } from '@/types'
+
+export function getSearchSuggestion(keyword: string, helper: SuggestionHelperConfig) {
   const query = new URLSearchParams({
     keyword,
-    source,
-    language,
+    source: helper.source,
+    language: helper.language,
+    channel: helper.channel.toString(),
   })
-  return fetch(`https://api.amarea.cn/startpage/v1/suggestion?${query}`)
+  return fetch(`${helper.endpoint}/v${helper.version}/suggestion?${query}`)
 }

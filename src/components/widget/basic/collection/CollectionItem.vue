@@ -44,7 +44,8 @@
 <script setup lang="ts">
 import Draggable from 'vuedraggable'
 import { Add24Regular, ArrowBidirectionalUpDown12Regular, Delete24Regular } from '@vicons/fluent'
-import { type CollectionData, ContextMenuItemType } from '@/types'
+import { type CollectionData } from '@/types'
+import { ContextMenuItemType } from '@/types/contextmenu'
 import { useStore } from '@/store'
 import { CustomModalType, ModalType } from '@/types/modal'
 

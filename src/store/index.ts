@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import type { CollectionData, LinkData, SearchProvider, ShowContextMenuProps } from '@/types'
+import type { CollectionData, LinkData, SearchProvider } from '@/types'
+import type { ShowContextMenuProps } from '@/types/contextmenu'
 import type { ShowModalProps } from '@/types/modal'
 import { isValidKey } from '@/utils'
 
@@ -7,6 +8,14 @@ export const useStore = defineStore('main', {
   state: () => ({
     collections: [] as CollectionData[],
     searchProviders: [] as SearchProvider[],
+
+    showSettingPanel: false,
+
+    settings: {
+      searchProvider: 'google',
+      suggestionProvider: 'baidu',
+      faviconSource: 'google',
+    },
 
     contextMenu: {
       show: false,
@@ -83,6 +92,9 @@ export const useStore = defineStore('main', {
     closeModal() {
       this.modal.show = false
     },
+    toggleSettingPanel() {
+      this.showSettingPanel = !this.showSettingPanel
+    },
     importData() {
       const input = document.createElement('input')
       input.type = 'file'
@@ -95,6 +107,7 @@ export const useStore = defineStore('main', {
         reader.onload = (e) => {
           const data = JSON.parse(e.target!.result as string)
           this.collections = data.collections
+          this.settings = data.settings
         }
         reader.readAsText(file)
       }
@@ -103,6 +116,7 @@ export const useStore = defineStore('main', {
     exportData() {
       const data = {
         collections: this.collections,
+        settings: this.settings,
       }
       const blob = new Blob([JSON.stringify(data)], { type: 'application/json' })
       const url = URL.createObjectURL(blob)

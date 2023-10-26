@@ -17,24 +17,17 @@ export interface SearchProvider {
   icon: string
 }
 
-export interface ContextMenuItem {
-  type: ContextMenuItemType
-  text?: string
-  textSize?: number
-  textColor?: string
-  callback?: () => void
+export interface SuggestionHelperConfig {
+  endpoint: string
+  version: string
+  language: string
+  source: string
+  channel: number
 }
 
-export enum ContextMenuItemType {
-  Button = 'button',
-  Text = 'text',
-  Separator = 'separator',
-}
-
-export interface ShowContextMenuProps {
-  items: ContextMenuItem[]
-  pos: {
-    x: number
-    y: number
-  }
+export interface SuggestionProvider {
+  name: string
+  type: 'helper'
+  url?: string
+  helper?: SuggestionHelperConfig
 }

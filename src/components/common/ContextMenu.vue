@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import { useStore } from '@/store'
-import { ContextMenuItemType } from '@/types'
+import { ContextMenuItemType } from '@/types/contextmenu'
 
 const store = useStore()
 

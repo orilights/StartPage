@@ -16,8 +16,10 @@
 
 <script setup lang="ts">
 import { useStore } from '@/store'
-import { ContextMenuItemType, type LinkData } from '@/types'
+import { type LinkData } from '@/types'
+import { ContextMenuItemType } from '@/types/contextmenu'
 import { CustomModalType, ModalType } from '@/types/modal'
+import { FaviconSourceMap } from '@/constants'
 
 const props = defineProps<{
   parentId: string
@@ -26,10 +28,12 @@ const props = defineProps<{
 
 const store = useStore()
 
+const { settings } = toRefs(store)
+
 const favicon = computed(() => {
   try {
     const url = new URL(props.data.target)
-    return `https://www.google.com/s2/favicons?sz=64&domain=${url.hostname}`
+    return FaviconSourceMap[settings.value.faviconSource].url.replace('{hostname}', url.hostname)
   }
   catch {
     return ''
@@ -77,6 +81,19 @@ function handleShowContextMenu(e: MouseEvent) {
   e.stopPropagation()
   store.showContextMenu({
     items: [{
+      type: ContextMenuItemType.Button,
+      text: '在新标签页打开',
+      callback: () => window.open(props.data.target, '_blank', 'noreferrer'),
+    },
+    {
+      type: ContextMenuItemType.Button,
+      text: '在当前标签页打开',
+      callback: () => window.open(props.data.target, '_self', 'noreferrer'),
+    },
+    {
+      type: ContextMenuItemType.Separator,
+    },
+    {
       type: ContextMenuItemType.Button,
       text: '复制链接地址',
       callback: handleCopyLink,

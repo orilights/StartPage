@@ -7,12 +7,14 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Clock: typeof import('./src/components/common/Clock.vue')['default']
-    CollectionItem: typeof import('./src/components/common/collection/CollectionItem.vue')['default']
-    CollectionList: typeof import('./src/components/common/collection/CollectionList.vue')['default']
-    ContextMenu: typeof import('./src/components/ContextMenu.vue')['default']
-    LinkItem: typeof import('./src/components/common/collection/LinkItem.vue')['default']
-    Modal: typeof import('./src/components/Modal.vue')['default']
-    SearchPanel: typeof import('./src/components/common/SearchPanel.vue')['default']
+    Clock: typeof import('./src/components/widget/basic/Clock.vue')['default']
+    CollectionItem: typeof import('./src/components/widget/basic/collection/CollectionItem.vue')['default']
+    CollectionList: typeof import('./src/components/widget/basic/collection/CollectionList.vue')['default']
+    ContextMenu: typeof import('./src/components/common/ContextMenu.vue')['default']
+    LinkItem: typeof import('./src/components/widget/basic/collection/LinkItem.vue')['default']
+    Modal: typeof import('./src/components/common/Modal.vue')['default']
+    SearchPanel: typeof import('./src/components/widget/basic/SearchPanel.vue')['default']
+    SettingPanel: typeof import('./src/components/common/SettingPanel.vue')['default']
+    Switch: typeof import('./src/components/common/Switch.vue')['default']
   }
 }
