@@ -130,7 +130,9 @@ onMounted(() => {
     showSearchProviderList.value = false
   })
   document.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.key === '/' && !focusOnSearchInput.value) {
+    if (e.key === '/') {
+      if (document.activeElement?.tagName === 'INPUT')
+        return
       e.preventDefault()
       searchInputEle.value?.focus()
     }
