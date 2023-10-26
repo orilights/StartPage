@@ -5,6 +5,10 @@ import type { ShowModalProps } from '@/types/modal'
 import { isValidKey } from '@/utils'
 
 export const useStore = defineStore('main', {
+  persist: {
+    key: 'sp-store',
+    paths: ['settings', 'collections'],
+  },
   state: () => ({
     collections: [] as CollectionData[],
     searchProviders: [] as SearchProvider[],

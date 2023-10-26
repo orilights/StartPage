@@ -17,15 +17,6 @@
         <button class="rounded-md border px-2 py-0.5" @click="handleAddCollection">
           add collection
         </button>
-        <button class="rounded-md border px-2 py-0.5" @click="handleAddLink">
-          add link
-        </button>
-        <button class="rounded-md border px-2 py-0.5" @click="store.exportData">
-          export data
-        </button>
-        <button class="rounded-md border px-2 py-0.5" @click="store.importData">
-          import data
-        </button>
         <button class="rounded-md border px-2 py-0.5" @click="collections = []">
           clear data
         </button>
@@ -42,17 +33,11 @@
 
 <script setup lang="ts">
 import { Settings24Regular } from '@vicons/fluent'
-import settings, { SettingType } from './utils/settings'
 import { useStore } from '@/store'
 
 const store = useStore()
 
-const { collections, settings: set } = toRefs(store)
-
-onMounted(() => {
-  settings.register('collections', collections, SettingType.Json)
-  settings.register('settings', set, SettingType.Json)
-})
+const { collections } = toRefs(store)
 
 function handleAddCollection() {
   store.addCollection({
@@ -60,17 +45,6 @@ function handleAddCollection() {
     name: 'New Collection',
     description: 'This is a description',
     links: [],
-  })
-}
-
-function handleAddLink() {
-  const collectionId = store.collections[0].id
-  if (!collectionId)
-    return
-  store.addLink(collectionId, {
-    id: '',
-    name: 'Google',
-    target: 'https://www.google.com',
   })
 }
 </script>

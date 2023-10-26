@@ -10,9 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@orilight/vue-settings": "^1.1.0",
     "@vueuse/core": "^10.5.0",
     "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.0",
     "vue": "^3.3.6",
     "vuedraggable": "^4.1.0"
   },
