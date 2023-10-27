@@ -25,7 +25,7 @@
           ref="searchInputEle" v-model.trim="searchInputStr"
           class="outline-none px-1 flex-1 h-[48px]"
           type="text"
-          :placeholder="`使用 ${currentSearchProvider.name} 搜索, 按下 / 聚焦到搜索框, 按下 Tab 切换搜索引擎`"
+          :placeholder="`使用 ${currentSearchProvider.name} 搜索${settings.showTips ? ', 按下 / 聚焦到搜索框, 按下 Tab 切换搜索引擎' : ''}`"
           @focus="onInputFocus"
           @blur="onInputBlur"
           @input="handleInput"

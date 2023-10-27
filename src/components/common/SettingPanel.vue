@@ -49,6 +49,10 @@
           </option>
         </select>
       </div>
+      <div class="flex justify-between items-center my-1">
+        显示使用提示
+        <Switch v-model="settings.showTips" />
+      </div>
       <div class="flex gap-2 mt-2">
         <button
           class="border px-2 py-0.5 hover:bg-gray-200 rounded-md"

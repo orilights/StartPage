@@ -17,6 +17,7 @@ export const useStore = defineStore('main', {
       searchProvider: 'google',
       suggestionProvider: 'baidu',
       faviconSource: 'google',
+      showTips: true,
     },
 
     contextMenu: {
