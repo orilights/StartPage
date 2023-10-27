@@ -5,11 +5,11 @@
   >
     <div class="absolute flex gap-2 top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
       <button @click="handleAddLink">
-        <Add24Regular class="w-5 h-5 text-[#707070]" />
+        <Add24Regular class="w-5 h-5 text-icon-btn" />
       </button>
-      <ArrowBidirectionalUpDown12Regular class="w-5 h-5 text-[#707070] cursor-move handle" />
+      <ArrowBidirectionalUpDown12Regular class="w-5 h-5 text-icon-btn cursor-move handle" />
       <button @click="handleDelete">
-        <Delete24Regular class="w-5 h-5 text-[#707070]" />
+        <Delete24Regular class="w-5 h-5 text-icon-btn" />
       </button>
     </div>
     <div>

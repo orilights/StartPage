@@ -3,7 +3,7 @@
     <div class="absolute right-6 top-6 z-50 option-area">
       <div class="flex justify-end">
         <button @click="store.toggleSettingPanel">
-          <Settings24Regular class="w-6 h-6" />
+          <Settings24Regular class="w-6 h-6 text-icon-btn" />
         </button>
       </div>
       <SettingPanel class="mt-2" />

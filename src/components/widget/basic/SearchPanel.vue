@@ -35,7 +35,7 @@
           @keydown.tab.prevent="switchSearchProvider()"
         >
         <button class="p-3 transition-colors rounded-full hover:bg-gray-200" @click="handleSearch">
-          <Search24Regular class="w-6 h-6 text-[#707070]" />
+          <Search24Regular class="w-6 h-6 text-icon-btn " />
         </button>
       </div>
       <Transition name="popup-top">

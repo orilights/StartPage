@@ -2,7 +2,7 @@
   <Transition name="popup-settingpanel">
     <div
       v-if="showSettingPanel"
-      class="p-4 border shadow-md rounded-lg bg-white"
+      class="p-4 border shadow-md rounded-lg bg-white min-w-[300px]"
     >
       <h2 class="font-bold text-lg">
         设置
@@ -11,7 +11,7 @@
         搜索引擎
         <select
           v-model="settings.searchProvider"
-          class="border rounded px-2 py-0.5"
+          class="border rounded px-2 py-0.5 hover:border-gray-400 focus:border-gray-400 transition-colors"
         >
           <option
             v-for="provider in Object.keys(SearchProviderMap)" :key="provider"
@@ -25,7 +25,7 @@
         搜索补全
         <select
           v-model="settings.suggestionProvider"
-          class="border rounded px-2 py-0.5"
+          class="border rounded px-2 py-0.5 hover:border-gray-400 focus:border-gray-400 transition-colors"
         >
           <option
             v-for="provider in Object.keys(SuggestionProviderMap)" :key="provider"
@@ -39,7 +39,7 @@
         Favicon API
         <select
           v-model="settings.faviconSource"
-          class="border rounded px-2 py-0.5"
+          class="border rounded px-2 py-0.5 hover:border-gray-400 focus:border-gray-400 transition-colors"
         >
           <option
             v-for="source in Object.keys(FaviconSourceMap)" :key="source"
