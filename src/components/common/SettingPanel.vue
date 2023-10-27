@@ -67,6 +67,9 @@
           导入备份
         </button>
       </div>
+      <div class="text-xs text-gray-400 mt-2">
+        StartPage {{ appVersion }} 早期测试版本 <a href="https://github.com/orilights/StartPage" target="_blank" class="hover:text-blue-400">GitHub</a>
+      </div>
     </div>
   </Transition>
 </template>
@@ -76,6 +79,8 @@ import { useStore } from '@/store'
 import { FaviconSourceMap, SearchProviderMap, SuggestionProviderMap } from '@/constants'
 
 const store = useStore()
+
+const appVersion = __APP_VERSION__
 
 const { settings, showSettingPanel } = toRefs(store)
 

@@ -11,18 +11,6 @@
     <Clock />
     <SearchPanel class="mx-auto mb-6" />
     <CollectionList />
-    <details>
-      <summary>debug</summary>
-      <div class="flex gap-2">
-        <button class="rounded-md border px-2 py-0.5" @click="handleAddCollection">
-          add collection
-        </button>
-        <button class="rounded-md border px-2 py-0.5" @click="collections = []">
-          clear data
-        </button>
-      </div>
-      <pre>{{ JSON.stringify(store.collections, null, 2) }}</pre>
-    </details>
 
     <Teleport to="body">
       <ContextMenu />
@@ -39,14 +27,10 @@ const store = useStore()
 
 const { collections } = toRefs(store)
 
-function handleAddCollection() {
-  store.addCollection({
-    id: '',
-    name: 'New Collection',
-    description: 'This is a description',
-    links: [],
-  })
-}
+onMounted(() => {
+  if (collections.value.length === 0)
+    store.addCollection()
+})
 </script>
 
 <style>

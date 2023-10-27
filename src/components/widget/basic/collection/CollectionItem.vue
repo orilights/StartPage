@@ -61,6 +61,7 @@ const dragOptions = {
 
 interface CollectionProps {
   data: CollectionData
+  index: number
 }
 
 const editMode = ref(false)
@@ -152,8 +153,21 @@ function handleShowContextMenu(e: MouseEvent) {
       type: ContextMenuItemType.Separator,
     },
     {
+      type: ContextMenuItemType.Button,
+      text: '在上方新建集合',
+      callback: () => store.addCollection(props.index),
+    },
+    {
+      type: ContextMenuItemType.Button,
+      text: '在下方新建集合',
+      callback: () => store.addCollection(props.index + 1),
+    },
+    {
+      type: ContextMenuItemType.Separator,
+    },
+    {
       type: ContextMenuItemType.Text,
-      text: `collection ${props.data.name}`,
+      text: props.data.name,
       textSize: 12,
       textColor: '#888888',
     }],

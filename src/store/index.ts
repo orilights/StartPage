@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { CollectionData, LinkData, SearchProvider, ShowContextMenuProps, ShowModalProps } from '@/types'
+import type { CollectionData, LinkData, ShowContextMenuProps, ShowModalProps } from '@/types'
 import { isValidKey } from '@/utils'
 
 export const useStore = defineStore('main', {
@@ -9,16 +9,14 @@ export const useStore = defineStore('main', {
   },
   state: () => ({
     collections: [] as CollectionData[],
-    searchProviders: [] as SearchProvider[],
-
-    showSettingPanel: false,
-
     settings: {
       searchProvider: 'google',
       suggestionProvider: 'baidu',
       faviconSource: 'google',
       showTips: true,
     },
+
+    showSettingPanel: false,
 
     contextMenu: {
       show: false,
@@ -30,14 +28,27 @@ export const useStore = defineStore('main', {
     },
   }),
   actions: {
-    addCollection(collection: CollectionData) {
+    addCollection(pos: number = -1, collection: CollectionData | undefined = undefined) {
+      if (!collection) {
+        collection = {
+          id: '',
+          name: '新建集合',
+          description: '',
+          links: [],
+        }
+      }
       collection.id = Date.now().toString()
-      this.collections.push(collection)
+      if (pos === -1)
+        this.collections.push(collection)
+      else
+        this.collections.splice(pos, 0, collection)
     },
     deleteCollection(collectionId: string) {
       this.collections = this.collections.filter(
         collection => collection.id !== collectionId,
       )
+      if (this.collections.length === 0)
+        this.addCollection()
     },
     updateCollection(collectionId: string, collection: Partial<CollectionData>) {
       const index = this.collections.findIndex(collection => collection.id === collectionId)
@@ -48,14 +59,17 @@ export const useStore = defineStore('main', {
           this.collections[index][key] = collection[key]!
       }
     },
-    addLink(collectionId: string, link: LinkData) {
+    addLink(collectionId: string, link: LinkData, pos: number = -1) {
       const collection = this.collections.find(
         collection => collection.id === collectionId,
       )
       if (!collection)
         return
       link.id = Date.now().toString()
-      collection.links.push(link)
+      if (pos === -1)
+        collection.links.push(link)
+      else
+        collection.links.splice(pos, 0, link)
     },
     deleteLink(collectionId: string, linkId: string) {
       const collection = this.collections.find(

@@ -6,9 +6,10 @@
     item-key="id"
     handle=".handle"
   >
-    <template #item="{ element }">
+    <template #item="{ element, index }">
       <CollectionItem
         :data="element"
+        :index="index"
         class="my-2"
       />
     </template>

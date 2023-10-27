@@ -12,7 +12,7 @@
       <div v-for="item, index in contextMenuData.items" :key="index">
         <template v-if="item.type === ContextMenuItemType.Button">
           <button
-            class="w-full px-4 py-2 bg-white hover:bg-gray-200 transition-colors text-left"
+            class="w-full px-4 py-1.5 bg-white hover:bg-gray-200 transition-colors text-left"
             @click="handleClickItem(item.callback as () => void)"
           >
             {{ item.text }}
@@ -23,7 +23,7 @@
         </template>
         <template v-else-if="item.type === ContextMenuItemType.Text">
           <div
-            class="px-4 py-2 bg-white"
+            class="px-4 py-1.5 bg-white"
             :style="{
               color: item.textColor,
               fontSize: `${item.textSize}px`,

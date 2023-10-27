@@ -121,7 +121,7 @@ function handleShowContextMenu(e: MouseEvent) {
     },
     {
       type: ContextMenuItemType.Text,
-      text: `link ${props.data.name}`,
+      text: props.data.name,
       textSize: 12,
       textColor: '#888888',
     }],

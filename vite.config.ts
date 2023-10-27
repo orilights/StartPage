@@ -1,4 +1,5 @@
 import path from 'node:path'
+import { env } from 'node:process'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
@@ -9,6 +10,9 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src'),
     },
+  },
+  define: {
+    __APP_VERSION__: JSON.stringify(env.npm_package_version),
   },
   base: './',
   plugins: [
