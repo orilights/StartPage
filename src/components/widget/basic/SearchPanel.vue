@@ -7,7 +7,7 @@
         'hover:shadow-md': !focusOnSearchInput,
       }"
       :style="{
-        height: searchSuggestionLoading ? '84px' : `${searchPanelHeight}px`,
+        height: `${searchPanelHeight}px`,
       }"
     >
       <div
@@ -40,25 +40,30 @@
       </div>
       <Transition name="popup-top">
         <div
-          v-show="focusOnSearchInput && searchSuggestions.length > 0"
+          v-show="focusOnSearchInput && linkSuggestions.length + searchSuggestions.length > 0"
           class="w-full border-t z-40"
         >
-          <Transition name="fade">
-            <div v-show="searchSuggestionLoading" class="text-center w-full">
-              loading
-            </div>
-          </Transition>
+          <button
+            v-for="suggest, index in linkSuggestions" :key="suggest.display"
+            class="w-full text-left px-4 py-1 text-sm bg-blue-100 hover:bg-blue-200 transition-all"
+            :class="{
+              '!bg-blue-200': index === inputSuggestionIndex,
+            }"
+            @click="inputSuggestionIndex = index; handleSearch()"
+          >
+            <span class="bg-gray-300/80 px-2 py-0.5 rounded-md">链接</span> {{ suggest.display }}
+          </button>
           <Transition name="fade">
             <div v-show="!searchSuggestionLoading">
               <button
-                v-for="suggest, index in searchSuggestions" :key="suggest"
+                v-for="suggest, index in searchSuggestions" :key="suggest.display"
                 class="w-full text-left px-4 py-1 text-sm hover:bg-gray-200 transition-all"
                 :class="{
-                  'bg-gray-200': index === searchSuggestionIndex,
+                  '!bg-gray-200': index === inputSuggestionIndex - linkSuggestions.length,
                 }"
-                @click="searchInputStr = suggest; handleSearch()"
+                @click="inputSuggestionIndex = index + linkSuggestions.length; handleSearch()"
               >
-                {{ suggest }}
+                {{ suggest.display }}
               </button>
             </div>
           </Transition>
@@ -92,10 +97,11 @@ import { Search24Regular } from '@vicons/fluent'
 import { SearchProviderMap, SuggestionProviderMap } from '@/constants'
 import { getSearchSuggestion } from '@/api/search'
 import { useStore } from '@/store'
+import type { SuggestionData } from '@/types'
 
 const store = useStore()
 
-const { settings } = toRefs(store)
+const { settings, collections } = toRefs(store)
 
 const focusOnSearchInput = ref(false)
 const showSearchProviderList = ref(false)
@@ -103,12 +109,31 @@ const searchInputEle = ref<HTMLInputElement | null>(null)
 const searchInputStr = ref('')
 const searchSuggestionStr = ref('')
 const searchSuggestionLoading = ref(false)
-const searchSuggestions = ref<string[]>([])
-const searchSuggestionIndex = ref(-1)
+const searchSuggestions = ref<SuggestionData[]>([])
+
+const inputSuggestionIndex = ref(-1)
+
+const linkSuggestions = computed<SuggestionData[]>(() => {
+  if (searchSuggestionStr.value === '')
+    return []
+  const result: SuggestionData[] = []
+  collections.value.forEach((collection) => {
+    collection.links.forEach((link) => {
+      if (link.name.toLowerCase().includes(searchSuggestionStr.value.toLowerCase())) {
+        result.push({
+          type: 'link',
+          display: link.name,
+          link: link.target,
+        })
+      }
+    })
+  })
+  return result.slice(0, 3)
+})
 
 const currentSearchProvider = computed(() => SearchProviderMap[settings.value.searchProvider])
 const searchPanelHeight = computed(() => {
-  return focusOnSearchInput.value ? searchSuggestions.value.length * 28 + 50 : 50
+  return focusOnSearchInput.value ? (linkSuggestions.value.length + searchSuggestions.value.length) * 28 + 50 : 50
 })
 
 onMounted(() => {
@@ -156,9 +181,22 @@ function switchSearchProvider(next = true) {
 }
 
 function handleSearch() {
-  const url = currentSearchProvider.value.url
-    .replace('{keyword}', encodeURIComponent(searchInputStr.value))
-  window.open(url)
+  if (inputSuggestionIndex.value === -1) {
+    const url = currentSearchProvider.value.url
+      .replace('{keyword}', encodeURIComponent(searchInputStr.value))
+    window.open(url)
+  }
+  else if (inputSuggestionIndex.value < linkSuggestions.value.length) {
+    window.open(linkSuggestions.value[inputSuggestionIndex.value].link)
+  }
+  else {
+    const url = currentSearchProvider.value.url
+      .replace('{keyword}', encodeURIComponent(
+        searchSuggestions.value[inputSuggestionIndex.value - linkSuggestions.value.length].display,
+      ))
+    window.open(url)
+  }
+
   searchInputStr.value = ''
   searchSuggestionStr.value = ''
   searchSuggestions.value = []
@@ -166,6 +204,7 @@ function handleSearch() {
 
 const handleInput = useDebounceFn(() => {
   if (searchInputStr.value === '') {
+    searchSuggestionStr.value = ''
     searchSuggestions.value = []
     return
   }
@@ -184,8 +223,11 @@ const handleInput = useDebounceFn(() => {
           return
         }
         if (data.data.query === searchSuggestionStr.value) {
-          searchSuggestions.value = data.data.response
-          searchSuggestionIndex.value = -1
+          searchSuggestions.value = data.data.response.map((item: any) => ({
+            type: 'search',
+            display: item,
+          }))
+          inputSuggestionIndex.value = -1
         }
       })
       .catch((err) => {
@@ -195,24 +237,28 @@ const handleInput = useDebounceFn(() => {
         searchSuggestionLoading.value = false
       })
   }
-}, 300)
+}, 200)
 
 const handleChangeSuggestionIndex = useThrottleFn((direction: 'up' | 'down') => {
   if (direction === 'up')
-    searchSuggestionIndex.value--
+    inputSuggestionIndex.value--
   else
-    searchSuggestionIndex.value++
+    inputSuggestionIndex.value++
 
-  if (searchSuggestionIndex.value < -1)
-    searchSuggestionIndex.value = searchSuggestions.value.length - 1
+  if (inputSuggestionIndex.value < -1)
+    inputSuggestionIndex.value = linkSuggestions.value.length + searchSuggestions.value.length - 1
 
-  else if (searchSuggestionIndex.value >= searchSuggestions.value.length)
-    searchSuggestionIndex.value = 0
+  else if (inputSuggestionIndex.value >= linkSuggestions.value.length + searchSuggestions.value.length)
+    inputSuggestionIndex.value = 0
 
-  if (searchSuggestionIndex.value === -1)
+  if (inputSuggestionIndex.value < linkSuggestions.value.length) {
     searchInputStr.value = searchSuggestionStr.value
-  else
-    searchInputStr.value = searchSuggestions.value[searchSuggestionIndex.value]
+  }
+  else {
+    const suggestions = [...linkSuggestions.value, ...searchSuggestions.value]
+    if (suggestions[inputSuggestionIndex.value].type === 'search')
+      searchInputStr.value = suggestions[inputSuggestionIndex.value].display
+  }
 }, 50, true, true)
 
 function onInputFocus() {
@@ -220,7 +266,7 @@ function onInputFocus() {
 }
 
 function onInputBlur() {
-  searchSuggestionIndex.value = -1
+  inputSuggestionIndex.value = -1
   focusOnSearchInput.value = false
 }
 </script>

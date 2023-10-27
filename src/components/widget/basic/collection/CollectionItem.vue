@@ -45,9 +45,8 @@
 import Draggable from 'vuedraggable'
 import { Add24Regular, ArrowBidirectionalUpDown12Regular, Delete24Regular } from '@vicons/fluent'
 import { type CollectionData } from '@/types'
-import { ContextMenuItemType } from '@/types/contextmenu'
+import { ContextMenuItemType, CustomModalType, ModalType } from '@/types'
 import { useStore } from '@/store'
-import { CustomModalType, ModalType } from '@/types/modal'
 
 const props = defineProps<CollectionProps>()
 

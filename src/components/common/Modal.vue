@@ -53,8 +53,8 @@
 
 <script setup lang="ts">
 import { useStore } from '@/store'
-import type { CustomModalProps } from '@/types/modal'
-import { CustomModalType, ModalType } from '@/types/modal'
+import type { CustomModalProps } from '@/types'
+import { CustomModalType, ModalType } from '@/types'
 
 const store = useStore()
 

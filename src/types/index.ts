@@ -1,3 +1,6 @@
+export * from './modal'
+export * from './contextmenu'
+
 export interface CollectionData {
   id: string
   name: string
@@ -30,4 +33,10 @@ export interface SuggestionProvider {
   type: 'helper'
   url?: string
   helper?: SuggestionHelperConfig
+}
+
+export interface SuggestionData {
+  type: 'search' | 'link'
+  display: string
+  link?: string
 }

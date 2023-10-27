@@ -17,8 +17,8 @@
 <script setup lang="ts">
 import { useStore } from '@/store'
 import { type LinkData } from '@/types'
-import { ContextMenuItemType } from '@/types/contextmenu'
-import { CustomModalType, ModalType } from '@/types/modal'
+import { ContextMenuItemType, CustomModalType, ModalType } from '@/types'
+
 import { FaviconSourceMap } from '@/constants'
 
 const props = defineProps<{
