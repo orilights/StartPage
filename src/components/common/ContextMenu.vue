@@ -57,7 +57,8 @@ watch(contextMenuShow, (val) => {
   }
 })
 
-function fixPosition() {
+async function fixPosition() {
+  await nextTick()
   if (!ele.value)
     return
   const rect = ele.value.getBoundingClientRect()

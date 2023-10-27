@@ -48,3 +48,9 @@ function handleAddCollection() {
   })
 }
 </script>
+
+<style>
+  body {
+    overflow-x: hidden;
+  }
+</style>

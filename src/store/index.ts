@@ -80,7 +80,11 @@ export const useStore = defineStore('main', {
           collection.links[index][key] = link[key]!
       }
     },
-    showContextMenu(props: ShowContextMenuProps) {
+    async showContextMenu(props: ShowContextMenuProps) {
+      if (this.contextMenu.show) {
+        this.contextMenu.show = false
+        await nextTick()
+      }
       this.contextMenu.data = props
       this.contextMenu.show = true
     },
