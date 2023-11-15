@@ -14,6 +14,7 @@ export const useStore = defineStore('main', {
       suggestionProvider: 'baidu',
       faviconSource: 'google',
       showTips: true,
+      enableDrag: true
     },
 
     showSettingPanel: false,

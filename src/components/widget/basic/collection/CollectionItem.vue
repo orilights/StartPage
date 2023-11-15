@@ -52,12 +52,16 @@ const props = defineProps<CollectionProps>()
 
 const store = useStore()
 
-const dragOptions = {
-  animation: 200,
-  group: 'description',
-  disabled: false,
-  ghostClass: 'ghost',
-}
+const { settings } = toRefs(store)
+
+const dragOptions = computed(()=>{
+  return  {
+    animation: 200,
+    group: 'description',
+    disabled: !settings.value.enableDrag,
+    ghostClass: 'ghost',
+  }
+})
 
 interface CollectionProps {
   data: CollectionData

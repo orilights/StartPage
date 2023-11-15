@@ -49,6 +49,10 @@
           </option>
         </select>
       </div>
+      <div class="flex justify-between items-center my-1" title="允许拖拽链接">
+        启用拖拽
+        <Switch v-model="settings.enableDrag" />
+      </div>
       <div class="flex justify-between items-center my-1">
         显示使用提示
         <Switch v-model="settings.showTips" />
