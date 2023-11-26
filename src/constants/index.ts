@@ -34,7 +34,7 @@ export const SuggestionProviderMap: Record<string, SuggestionProvider> = {
     name: '百度',
     type: 'helper',
     helper: {
-      endpoint: 'https://api.amarea.cn/startpage/',
+      endpoint: 'https://api.amarea.cn/startpage',
       version: '1',
       language: 'zh-CN',
       source: 'baidu',
@@ -45,10 +45,21 @@ export const SuggestionProviderMap: Record<string, SuggestionProvider> = {
     name: '百度1',
     type: 'helper',
     helper: {
-      endpoint: 'https://api.amarea.cn/startpage/',
+      endpoint: 'https://api.amarea.cn/startpage',
       version: '1',
       language: 'zh-CN',
       source: 'baidu',
+      channel: 0,
+    },
+  },
+  google: {
+    name: 'Google',
+    type: 'helper',
+    helper: {
+      endpoint: 'https://api.amarea.cn/startpage',
+      version: '1',
+      language: 'zh-CN',
+      source: 'google',
       channel: 0,
     },
   },
