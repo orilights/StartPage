@@ -1,7 +1,10 @@
 <template>
-  <div class="relative h-[50px] max-w-2xl z-40">
+  <div
+    id="search-panel"
+    class="relative h-[50px] max-w-2xl"
+  >
     <div
-      class="border rounded-[25px] bg-white transition-all shadow-sm ease-out overflow-hidden"
+      class="absolute top-0 w-full border rounded-[25px] bg-white transition-all shadow-sm ease-out overflow-hidden z-40"
       :class="{
         '!shadow-md': focusOnSearchInput,
         'hover:shadow-md': !focusOnSearchInput,
@@ -25,23 +28,30 @@
           ref="searchInputEle" v-model.trim="searchInputStr"
           class="outline-none px-1 flex-1 h-[48px]"
           type="text"
-          :placeholder="`使用 ${currentSearchProvider.name} 搜索${settings.showTips ? ', 按下 / 聚焦到搜索框, 按下 Tab 切换搜索引擎' : ''}`"
+          :placeholder="
+            `使用 ${currentSearchProvider.name} 搜索${
+              settings.showTips
+                ? ', 按下 / 聚焦到搜索框, 按下 Tab 切换搜索引擎'
+                : ''}`
+          "
           @focus="onInputFocus"
-          @blur="onInputBlur"
           @input="handleInput"
           @keydown.up.prevent="handleChangeSuggestionIndex('up')"
           @keydown.down.prevent="handleChangeSuggestionIndex('down')"
           @keydown.enter="handleSearch"
           @keydown.tab.prevent="switchSearchProvider()"
         >
-        <button class="p-3 transition-colors rounded-full hover:bg-gray-200" @click="handleSearch">
+        <button
+          class="p-3 transition-colors rounded-full hover:bg-gray-200"
+          @click="handleSearch"
+        >
           <Search24Regular class="w-6 h-6 text-icon-btn " />
         </button>
       </div>
       <Transition name="popup-top">
         <div
           v-show="focusOnSearchInput && linkSuggestions.length + searchSuggestions.length > 0"
-          class="w-full border-t z-40"
+          class="w-full border-t z-50"
         >
           <button
             v-for="suggest, index in linkSuggestions" :key="suggest.display"
@@ -49,7 +59,7 @@
             :class="{
               '!bg-blue-200': index === inputSuggestionIndex,
             }"
-            @click="inputSuggestionIndex = index; handleSearch()"
+            @click.stop="handleClickSuggestion(index)"
           >
             <span class="bg-gray-300/80 px-2 py-0.5 rounded-md">链接</span> {{ suggest.display }}
           </button>
@@ -61,7 +71,7 @@
                 :class="{
                   '!bg-gray-200': index === inputSuggestionIndex - linkSuggestions.length,
                 }"
-                @click="inputSuggestionIndex = index + linkSuggestions.length; handleSearch()"
+                @click.stop="handleClickSuggestion(index + linkSuggestions.length)"
               >
                 {{ suggest.display }}
               </button>
@@ -73,6 +83,7 @@
     <Transition name="popup-top">
       <div
         v-if="showSearchProviderList"
+        id="search-provider-selector"
         class="flex gap absolute left-0 top-[52px] border rounded-full bg-white shadow-sm z-50"
       >
         <button
@@ -84,7 +95,11 @@
           }"
           @click.stop="settings.searchProvider = provider"
         >
-          <img :src="SearchProviderMap[provider].icon" :alt="SearchProviderMap[provider].name" class="w-6 h-6">
+          <img
+            :src="SearchProviderMap[provider].icon"
+            :alt="SearchProviderMap[provider].name"
+            class="w-6 h-6"
+          >
         </button>
       </div>
     </Transition>
@@ -133,13 +148,20 @@ const linkSuggestions = computed<SuggestionData[]>(() => {
 
 const currentSearchProvider = computed(() => SearchProviderMap[settings.value.searchProvider])
 const searchPanelHeight = computed(() => {
-  return focusOnSearchInput.value ? (linkSuggestions.value.length + searchSuggestions.value.length) * 28 + 50 : 50
+  return focusOnSearchInput.value
+    ? (linkSuggestions.value.length + searchSuggestions.value.length) * 28 + 50
+    : 50
 })
 
 onMounted(() => {
   searchInputEle.value?.focus()
-  document.addEventListener('click', () => {
-    showSearchProviderList.value = false
+  document.addEventListener('click', (e: MouseEvent) => {
+    if ((e.target as HTMLElement).closest('#search-provider-selector') === null)
+      showSearchProviderList.value = false
+  })
+  document.addEventListener('click', (e: MouseEvent) => {
+    if ((e.target as HTMLElement).closest('#search-panel') === null)
+      onInputBlur()
   })
   document.addEventListener('keydown', (e: KeyboardEvent) => {
     if (e.key === '/') {
@@ -178,6 +200,11 @@ function switchSearchProvider(next = true) {
 
   settings.value.searchProvider = providers[currentIndex]
   hideSearchProviderList()
+}
+
+function handleClickSuggestion(suggestionIndex: number) {
+  inputSuggestionIndex.value = suggestionIndex
+  handleSearch()
 }
 
 function handleSearch() {
