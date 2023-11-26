@@ -45,7 +45,7 @@
         >
           <button
             v-for="suggest, index in linkSuggestions" :key="suggest.display"
-            class="w-full text-left px-4 py-1 text-sm bg-blue-100 hover:bg-blue-200 transition-all"
+            class="w-full text-left px-4 py-1 text-sm bg-blue-50 hover:bg-blue-200 transition-all"
             :class="{
               '!bg-blue-200': index === inputSuggestionIndex,
             }"
