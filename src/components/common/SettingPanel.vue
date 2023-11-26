@@ -72,7 +72,7 @@
         </button>
       </div>
       <div class="text-xs text-gray-400 mt-2">
-        StartPage {{ appVersion }} 早期测试版本 <a href="https://github.com/orilights/StartPage" target="_blank" class="hover:text-blue-400">GitHub</a>
+        StartPage {{ appVersion }} <a href="https://github.com/orilights/StartPage" target="_blank" class="hover:text-blue-400">GitHub</a>
       </div>
     </div>
   </Transition>
@@ -84,7 +84,7 @@ import { FaviconSourceMap, SearchProviderMap, SuggestionProviderMap } from '@/co
 
 const store = useStore()
 
-const appVersion = __APP_VERSION__
+const appVersion = import.meta.env.DEV ? 'dev' : `v${__APP_VERSION__}`
 
 const { settings, showSettingPanel } = toRefs(store)
 

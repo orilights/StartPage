@@ -54,8 +54,8 @@ const store = useStore()
 
 const { settings } = toRefs(store)
 
-const dragOptions = computed(()=>{
-  return  {
+const dragOptions = computed(() => {
+  return {
     animation: 200,
     group: 'description',
     disabled: !settings.value.enableDrag,
