@@ -43,4 +43,8 @@
 
 ### 网站图标无法加载
 
-目前本程序使用了 Google 的 Favicon API，如果你的网络环境无法访问 Google，那么网站图标将可能无法加载。
+目前本程序使用了 Google/DuckDuckGo 的 Favicon API，如果你的网络环境无法访问 Google/DuckDuckGo，那么网站图标将可能无法加载。
+
+### 谷歌搜索联想加载缓慢或失败
+
+因为国内网络访问 Google 存在困难，目前使用的是 Helper -> CloudFlare Proxy -> 境外服务器 Nginx 代理谷歌相关 API 的方式，不是非常稳定，后续有更好的方案会进行优化。
